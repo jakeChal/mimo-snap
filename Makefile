@@ -5,8 +5,7 @@ SHELL := /bin/bash
 # Always run `hf` via pipx to avoid relying on local `hf` installations.
 hf := pipx run --spec "huggingface_hub[cli]" hf
 
-# TODO: Replace with snap name
-SNAP_NAME ?= gemma4 
+SNAP_NAME ?= mimo 
 
 ENGINE ?= cpu
 
@@ -57,10 +56,14 @@ init-submodules:
 		git submodule update --init; \
 	fi
 
-# TODO: Update to match the expected model(s):
-download-models: download-model-E4B-Q4_K_M
+download-models: download-model-9b download-mmproj-9b 
 
-# TODO: Update to match the model. Add one target per model.
-download-model-E4B-Q4_K_M:
-	$(hf) download unsloth/gemma-4-E4B-it-GGUF gemma-4-E4B-it-Q4_K_M.gguf \
-		--local-dir model-weights/model-e4b-q4-k-m-gguf/
+download-model-9b:
+	@echo "Downloading MiMo-V2.6-Distill-Qwen-9B model weights..."
+	$(hf) download hf://ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF/MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf \
+		--local-dir components/model-9b-q8-0-gguf
+
+download-mmproj-9b:
+	@echo "Downloading MiMo-V2.6-Distill-Qwen-9B mmproj weights..."
+	$(hf) download hf://ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF/mmproj-MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf \
+		--local-dir components/mmproj-9b-q8-0-gguf

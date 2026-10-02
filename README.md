@@ -4,15 +4,15 @@
 #
 
 # Snap name. This is exposed as a command when installing the snap.
-snap-name: gemma4
+snap-name: mimo2-6-distill
 # Snap title, a friendly name for the snap, used in snap metadata and docs.
-snap-title: Gemma 4
+snap-title: Mimo 2.6 distilled
 # URL to model card from the model publisher
-model-card: https://ai.google.dev/gemma/docs/core/model_card_4
+model-card: https://huggingface.co/ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF
 # The port that the inference snap will use for its API server.
-http-port: 8080
+http-port: 8362
 # The port that the inference snap will use for its webui server.
-webui-http-port: 8081
+webui-http-port: 8363
 # Optimizations
 engines: cpu, nvidia-gpu
 ---
