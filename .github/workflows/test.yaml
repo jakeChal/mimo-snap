@@ -1,0 +1,26 @@
+name: Inference Snap Testing
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  testflinger:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        engine: [ cpu, nvidia-gpu ]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Snap Environment
+      run: snap install inference-snaps-cli --channel=stable
+      
+    - name: Run Testflinger
+      # Adaptations for text-only model and missing TPS baseline
+      # Test-image-prompt is omitted for text-only models
+      # Expected-tps is omitted as no baseline was measured
+      run: inference-snaps-cli testflinger \
+        --snap mimo2-6-distill \
+        --repo mimo-snap \
+        --engine ${{ matrix.engine }}

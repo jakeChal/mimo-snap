@@ -34,31 +34,31 @@ engines: cpu, nvidia-gpu
 > 
 > If this is the first time doing this, refer to [Using an AI agent to create an inference snap](https://documentation.ubuntu.com/inference-snaps/tutorial/agentic-inference-snap-creation/) tutorial.
 
-# {snap-title} inference snap
-[![{snap-name}](https://snapcraft.io/{snap-name}/badge.svg)](https://snapcraft.io/{snap-name})
+# Mimo 2.6 distilled inference snap
+[![mimo2-6-distill](https://snapcraft.io/mimo2-6-distill/badge.svg)](https://snapcraft.io/mimo2-6-distill)
 
 
 
-{model description}
+A distilled version of Mimo 2.6, optimized for inference on various hardware.
 
-Use this snap to quickly install an optimized environment for local inference with {snap-title}.
+Use this snap to quickly install an optimized environment for local inference with Mimo 2.6 distilled.
 
 The snap includes the following hardware-optimized inference engines:
 
 * cpu: Optimized for x64 and ARM (armv8, armv9) CPUs
 * nvidia-gpu: CUDA-enabled GPU acceleration
-* {engine}: {description}
+
 
 The most suitable engine is automatically selected based on the available hardware.
 
 #### Install
 ```
-sudo snap install {snap-name}
+sudo snap install mimo2-6-distill
 ```
 
 #### Run
 ```
-{snap-name}
+mimo2-6-distill
 ```
 
 > [!TIP]

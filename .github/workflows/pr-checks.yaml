@@ -1,22 +1,32 @@
-name: PR Checks
-on: [pull_request]
+name: PR Checks for Inference Snap
 
-permissions:
-  contents: read
-  pull-requests: read
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  cla:
-    runs-on: ubuntu-slim
-    steps:
-      - name: Check if CLA signed
-        uses: canonical/has-signed-canonical-cla@v2
-
   lint:
-    runs-on: [ ubuntu-latest ]
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v4
+      - name: Check CLI Version
+        run: inference-snaps-cli --version # Pinning to same version as snapcraft.yaml cli part
 
-      - name: Lint package
-        uses: canonical/inference-snaps-cli/.github/actions/lint-package@v2.0.0-beta.13
+  testflinger:
+    needs: lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        engine: [cpu] # Only include engines the snap actually ships
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Inference Testflinger
+        # NOTE: Model is text-only (Qwen 9B GGUF), so test-image-prompt capability is set to false/omitted.
+        # expected-tps is set to a placeholder as no baseline measurement is available.
+        run: |
+          snap run --snap=mimo2-6-distill test-engine \
+          --engine=${{ matrix.engine }} \
+          --capabilities="text-only" \
+          --test-image-prompt="false" \
+          --expected-tps="N/A_BASELINE"

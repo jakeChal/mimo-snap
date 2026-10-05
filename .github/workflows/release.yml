@@ -1,0 +1,19 @@
+name: Release Snap
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*' # Trigger on version tags
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # TODO: Add steps for final packaging and signing
+      - name: Final Packaging
+        run: snap package --snap=mimo2-6-distill
+      - name: Publish Release
+        run: gh release create --title "v${{ github.ref_name }}" --tag_name "${{ github.ref_name }}" --notes "Release of mimo2-6-distill snap."
