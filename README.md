@@ -4,17 +4,17 @@
 #
 
 # Snap name. This is exposed as a command when installing the snap.
-snap-name: mimo2-6-distill
+snap-name: mimo-v2-6
 # Snap title, a friendly name for the snap, used in snap metadata and docs.
-snap-title: Mimo 2.6 distilled
+snap-title: MiMo V2.6
 # URL to model card from the model publisher
-model-card: https://huggingface.co/ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF
+model-card: https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B
 # The port that the inference snap will use for its API server.
 http-port: 8362
 # The port that the inference snap will use for its webui server.
 webui-http-port: 8363
 # Optimizations
-engines: cpu, nvidia-gpu
+engines: cpu
 ---
 
 > [!NOTE]

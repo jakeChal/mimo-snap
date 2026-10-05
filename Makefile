@@ -5,7 +5,7 @@ SHELL := /bin/bash
 # Always run `hf` via pipx to avoid relying on local `hf` installations.
 hf := pipx run --spec "huggingface_hub[cli]" hf
 
-SNAP_NAME ?= mimo 
+SNAP_NAME ?= mimo-v2-6
 
 ENGINE ?= cpu
 
@@ -56,14 +56,18 @@ init-submodules:
 		git submodule update --init; \
 	fi
 
-download-models: download-model-9b download-mmproj-9b 
+download-models: download-model-9b download-mmproj-9b
 
+# ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF Q8_0, split into parts below the 5 GB component limit with:
+#   llama-gguf-split --split-max-size 5G MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf MiMo-V2.6-Distill-Qwen-9B-Q8_0
 download-model-9b:
 	@echo "Downloading MiMo-V2.6-Distill-Qwen-9B model weights..."
-	$(hf) download hf://ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF/MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf \
-		--local-dir components/model-9b-q8-0-gguf
+	$(hf) download inference-snaps/mimo-v2-6 MiMo-V2.6-Distill-Qwen-9B-Q8_0-00001-of-00002.gguf \
+		--local-dir components/model-9b-q8-0-gguf-1-of-2/
+	$(hf) download inference-snaps/mimo-v2-6 MiMo-V2.6-Distill-Qwen-9B-Q8_0-00002-of-00002.gguf \
+		--local-dir components/model-9b-q8-0-gguf-2-of-2/
 
 download-mmproj-9b:
 	@echo "Downloading MiMo-V2.6-Distill-Qwen-9B mmproj weights..."
-	$(hf) download hf://ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF/mmproj-MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf \
-		--local-dir components/mmproj-9b-q8-0-gguf
+	$(hf) download ggml-org/MiMo-V2.6-Distill-Qwen-9B-GGUF mmproj-MiMo-V2.6-Distill-Qwen-9B-Q8_0.gguf \
+		--local-dir components/mmproj-9b-q8-0-gguf/
